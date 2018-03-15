@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
         
 
-        //coloque seu código aqui
+        new GUI();
 
 
     }
