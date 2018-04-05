@@ -1,19 +1,27 @@
 package Main;
 
 //@author Radames J Halmeman  - rjhalmeman@gmail.com
+import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Container;
-import java.awt.GridLayout;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 public class GUI extends JFrame {
 
     private Container cp;
-    private JLabel lbA = new JLabel("Rótulo A");
+    
+    
+    JPanel pnNorte = new JPanel();
+    JPanel pnCentro = new JPanel();
+    
+    private JLabel lbTitulo = new JLabel("Lanches Nerd");
     private JTextField tfA = new JTextField(5);
 
     private JButton btCalcular = new JButton("Calcular");
@@ -26,17 +34,21 @@ public class GUI extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         cp = getContentPane();
-        cp.setLayout(new GridLayout(3, 2));
-        setTitle("Básico");
+        cp.setLayout(new BorderLayout());
+        
+  //      cp.setLayout(new GridLayout(3, 2));
+        setTitle("Exercício 1 - Lista 2");
 
-        cp.add(lbA);
-        cp.add(tfA);
+        cp.add(pnNorte, BorderLayout.NORTH);
+        cp.add(pnCentro, BorderLayout.CENTER);
+        
+        pnNorte.setBackground(Color.cyan);
+        pnNorte.add(lbTitulo);
+        pnNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        cp.add(btCalcular);
-        cp.add(new JLabel(""));
-        cp.add(lbResp);
-        cp.add(tfResp);
-
+        pnCen
+        
+        
         btCalcular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
