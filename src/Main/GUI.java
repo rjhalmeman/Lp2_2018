@@ -26,7 +26,7 @@ public class GUI extends JFrame {
         setSize(800, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         cp = getContentPane();
-        cp.setLayout(new GridLayout(7, 2));
+        cp.setLayout(new GridLayout(3, 2));
         setTitle("Básico");
 
         cp.add(lbA);
