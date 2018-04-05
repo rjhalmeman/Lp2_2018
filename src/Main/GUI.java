@@ -1,5 +1,3 @@
-
-
 package Main;
 
 //@author Radames J Halmeman  - rjhalmeman@gmail.com
@@ -13,67 +11,45 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class GUI extends JFrame {
-    
+
     private Container cp;
-    private JLabel lbAluno = new JLabel("Código do aluno");
-    private JTextField tfAluno = new JTextField(5);
-    
-    private JLabel lbNota1 = new JLabel("Nota 1");
-    private JLabel lbNota2 = new JLabel("Nota 2");
-    private JLabel lbNota3 = new JLabel("Nota 3");
-    
-    private JTextField tfNota1 = new JTextField(5);
-    private JTextField tfNota2 = new JTextField(5);
-    private JTextField tfNota3 = new JTextField(5);
-    
+    private JLabel lbA = new JLabel("Rótulo A");
+    private JTextField tfA = new JTextField(5);
+
     private JButton btCalcular = new JButton("Calcular");
-    
-    private JLabel lbMedia = new JLabel("Média");
-    private JLabel lbSituacao = new JLabel("Situação");
-    
-    private JTextField tfMedia = new JTextField(5);
-    private JTextField tfSituacao = new JTextField(5);
-   
-    
+
+    private JLabel lbResp = new JLabel("Resp");
+
+    private JTextField tfResp = new JTextField(5);
+
     public GUI() {
         setSize(800, 600);
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
         cp = getContentPane();
-        cp.setLayout(new GridLayout(7,2));
-        setTitle("Exercício 05");
-        
-        cp.add(lbAluno);
-        cp.add(tfAluno);
-        cp.add(lbNota1);
-        cp.add(tfNota1);
-        cp.add(lbNota2);
-        cp.add(tfNota2);
-        cp.add(lbNota3);
-        cp.add(tfNota3);
+        cp.setLayout(new GridLayout(7, 2));
+        setTitle("Básico");
+
+        cp.add(lbA);
+        cp.add(tfA);
+
         cp.add(btCalcular);
         cp.add(new JLabel(""));
-        cp.add(lbMedia);
-        cp.add(tfMedia);
-        cp.add(lbSituacao);
-        cp.add(tfSituacao);
-        
+        cp.add(lbResp);
+        cp.add(tfResp);
+
         btCalcular.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                MediaPonderada mp = new MediaPonderada();
+                Processamento mp = new Processamento();
                 //enviar dados
-                mp.setNota1(Double.valueOf(tfNota1.getText()));
-                mp.setNota2(Double.valueOf(tfNota2.getText()));
-                mp.setNota3(Double.valueOf(tfNota3.getText()));
-                
+                mp.setValor(Double.valueOf(tfA.getText()));
+
                 //obter resposta
-                tfMedia.setText(String.valueOf(mp.getMedia()));
-                tfSituacao.setText(mp.getSituacao());
-                
+                tfResp.setText(String.valueOf(mp.getResposta()));
+
             }
         });
-        
-        
+
         setLocationRelativeTo(null);//centraliza no monitor
         setVisible(true);
     }
