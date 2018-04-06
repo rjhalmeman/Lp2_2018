@@ -119,10 +119,12 @@ public class Processamento {
     }
 
     public double getSubTotalXTudo() {
+        subTotalXTudo = qtXTudo * precoXTudo;
         return subTotalXTudo;
     }
 
     public double getSubTotalXNerd() {
+        subTotalXNerd = qtXNerd * precoXNerd;
         return subTotalXNerd;
     }
 
