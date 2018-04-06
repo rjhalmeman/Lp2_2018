@@ -78,12 +78,10 @@ public class GUI extends JFrame {
         pnNorte.add(lbTitulo);
         pnNorte.setLayout(new FlowLayout(FlowLayout.CENTER));
 
-        
-        
         pnCentro.setLayout(new GridLayout(8, 4));
 
         pnCentro.add(lbQuantidade);
-        
+
         pnCentro.add(lbLanche);
         pnCentro.add(lbPreco);
         pnCentro.add(lbSubtotal);
@@ -129,10 +127,12 @@ public class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Processamento proc = new Processamento();
+                lbAviso.setText("----");
+                lbAviso.setOpaque(true);
+                lbAviso.setBackground(Color.green);
                 try { // o try catch vai garantir que o usuário digite números válidos
-                    
+
                     //entrada de dados
-                    
                     //se estiver vazio, substitui por zero para evitar erros nas contas
                     if (tfQuantidadeXSalada.getText().equals("")) {
                         tfQuantidadeXSalada.setText("0");
@@ -170,7 +170,8 @@ public class GUI extends JFrame {
 
                     lbTotalResp.setText(String.valueOf(proc.getTotal()));
                 } catch (Exception erro) {
-                    lbAviso.setText("Erro nos dados >>> "+ erro.getMessage());
+                    lbAviso.setText("Erro nos dados >>> " + erro.getMessage());
+                    lbAviso.setBackground(Color.red);
                 }
             }
         });
