@@ -86,10 +86,10 @@ public class GUI extends JFrame {
         pnCentro.add(lbPreco);
         pnCentro.add(lbSubtotal);
 
-        pnCentro.add(tfQuantidadeXEgg);
-        pnCentro.add(lbXEgg);
-        pnCentro.add(lbPrecoXEgg);
-        pnCentro.add(lbSubTotalXEgg);
+        pnCentro.add(tfQuantidadeXSalada);
+        pnCentro.add(lbXSalada);
+        pnCentro.add(lbPrecoXSalada);
+        pnCentro.add(lbSubTotalXSalada);
 
         pnCentro.add(tfQuantidadeXEgg);
         pnCentro.add(lbXEgg);
