@@ -32,14 +32,13 @@ public class Controle {
     }
 
     public Controle() {
-//        Contato contato = new Contato();
-//        Contato contato1 = new Contato("1","111","11111");
-        lista.add(new Contato("1","111","11111"));
+         lista.add(new Contato("1","111","11111"));
         lista.add(new Contato("2","222","22222"));
         lista.add(new Contato("3","333","33333"));
     }
 
     void alterar(Contato contatoOriginal, Contato contatoAlterado) {
+        System.out.println("or "+contatoOriginal.toString());
         lista.set(lista.indexOf(contatoOriginal), contatoAlterado);
     }
     

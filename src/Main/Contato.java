@@ -21,7 +21,9 @@ public class Contato {
 
     @Override
     public String toString() {
-        return "Contato{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + '}';
+        return "Contato{" + "id=" + id 
+                + ", nome=" + nome 
+                + ", endereco=" + endereco + '}';
     }
 
     

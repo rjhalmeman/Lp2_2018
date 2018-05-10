@@ -72,7 +72,7 @@ class GUI extends JFrame {
         btBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                Contato contato = controle.buscar(tfChave.getText());
+                contato = controle.buscar(tfChave.getText());
                 if (contato == null) { //nao achou
                     btInserir.setVisible(true);
                     btAlterar.setVisible(false);
@@ -116,6 +116,7 @@ class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Contato contatoOriginal = contato;
+
                 contato.setId(tfChave.getText());
                 contato.setNome(tfNome.getText());
                 contato.setEndereco(tfEndereco.getText());
@@ -125,7 +126,7 @@ class GUI extends JFrame {
                     contato.setId(tfChave.getText());
                     controle.inserir(contato);
                 } else {//alterar
-                    System.out.println("contato original " 
+                    System.out.println("contato original "
                             + contatoOriginal.toString());
                     controle.alterar(contatoOriginal, contato);
                 }
