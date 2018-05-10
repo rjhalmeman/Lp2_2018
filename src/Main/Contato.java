@@ -10,11 +10,6 @@ public class Contato {
     private String nome;
     private String endereco;
 
-    @Override
-    public String toString() {
-        return "Contato{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + '}';
-    }
-
     public Contato() {
     }
 
@@ -24,6 +19,13 @@ public class Contato {
         this.endereco = endereco;
     }
 
+    @Override
+    public String toString() {
+        return "Contato{" + "id=" + id + ", nome=" + nome + ", endereco=" + endereco + '}';
+    }
+
+    
+    
     public String getId() {
         return id;
     }
@@ -47,6 +49,8 @@ public class Contato {
     public void setEndereco(String endereco) {
         this.endereco = endereco;
     }
+
+   
     
     
 }
