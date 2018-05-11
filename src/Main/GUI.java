@@ -38,7 +38,7 @@ class GUI extends JFrame {
     private JLabel lbNome = new JLabel("Nome");
     private JLabel lbEndereco = new JLabel("Endereço");
 
-    private JTextField tfChave = new JTextField(5);
+    private JTextField tfId = new JTextField(5);
     private JTextField tfNome = new JTextField(30);
     private JTextField tfEndereco = new JTextField(30);
 
@@ -75,7 +75,7 @@ class GUI extends JFrame {
     }
 
     private void travarTextFields(boolean campo) {
-        tfChave.setEditable(campo);
+        tfId.setEditable(campo); //permite que o usuario digite nesse textField
         tfNome.setEditable(!campo);
         tfEndereco.setEditable(!campo);
     }
@@ -89,7 +89,7 @@ class GUI extends JFrame {
         cp.add(pnSul, BorderLayout.SOUTH);
 
         pnNorte.add(lbId);
-        pnNorte.add(tfChave);
+        pnNorte.add(tfId);
         pnNorte.add(btBuscar);
         pnNorte.add(btInserir);
         pnNorte.add(btAlterar);
@@ -117,8 +117,9 @@ class GUI extends JFrame {
         btInserir.setVisible(false);
         btAlterar.setVisible(false);
         btExcluir.setVisible(false);
-        
+
         travarTextFields(true);
+        textAreaMsg.setEditable(false);
 
 // ------------------------BOTAO BUSCAR ----------------------------------------        
         btBuscar.addActionListener(new ActionListener() {
@@ -126,7 +127,7 @@ class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 travarTextFields(true);
                 cardLayout.show(pnSul, "pnMsg");
-                contato = controle.buscar(tfChave.getText());
+                contato = controle.buscar(tfId.getText());
                 if (contato == null) { //nao achou
                     btInserir.setVisible(true);
                     btAlterar.setVisible(false);
@@ -135,7 +136,7 @@ class GUI extends JFrame {
                 } else { //achou
                     btAlterar.setVisible(true);
                     btExcluir.setVisible(true);
-                    tfChave.setText(contato.getId());
+                    tfId.setText(contato.getId());
                     tfNome.setText(contato.getNome());
                     tfEndereco.setText(contato.getEndereco());
                     setLog("Achou na lista, pode alterar ou excluir...");
@@ -150,22 +151,23 @@ class GUI extends JFrame {
             public void actionPerformed(ActionEvent e) {
                 Contato contatoOriginal = contato; //para pesquisar na lista
                 //precisamos do contato original (para depois modificar)
-
-                contato.setId(tfChave.getText());
+                if (inserindo) {
+                    contato = new Contato(); //criar um novo contato  
+                }
+                //transfere os valores da GUI para classe contato
+                contato.setId(tfId.getText());
                 contato.setNome(tfNome.getText());
                 contato.setEndereco(tfEndereco.getText());
 
                 if (inserindo) { //a variavel inserindo é preenchida nos  
-                    //listenners dos botões alterar ou excluir
-                    contato = new Contato(); //criar um novo contato                   
                     controle.inserir(contato);
                 } else {//alterar                  
                     controle.alterar(contatoOriginal, contato);
                 }
 
                 //voltar para tela inicial
-                tfChave.requestFocus();
-                tfChave.selectAll();
+                tfId.requestFocus();
+                tfId.selectAll();
                 btSalvar.setVisible(false);
                 btCancelar.setVisible(false);
                 btBuscar.setVisible(true);
@@ -197,6 +199,7 @@ class GUI extends JFrame {
                 btCancelar.setVisible(true);
                 btBuscar.setVisible(false);
                 inserindo = true;
+
                 travarTextFields(false);
             }
         });
