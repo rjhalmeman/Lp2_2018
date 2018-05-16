@@ -6,7 +6,6 @@ import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
@@ -57,12 +56,12 @@ class GUI extends JFrame {
 
     DefaultTableModel model = new DefaultTableModel(dados, colunas);
     JTable tabela = new JTable(model);
-//                scrollList.add(tabela);
+
     JScrollPane scrollList = new JScrollPane();
 
     private JScrollPane scrollMensagem = new JScrollPane();
 
-    JTextArea textAreaMsg = new JTextArea();
+    JTextArea textAreaMsg = new JTextArea(5, 150);
 
     private boolean inserindo; //esta variável controla se é uma operação de INSERT ou UPDATE no botão salvar
 
@@ -85,12 +84,12 @@ class GUI extends JFrame {
     }
 
     public GUI() {
-
+        //faz com que a última linha do jTextArea seja exibida
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         scrollMensagem.setViewportView(textAreaMsg);
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-        
+
         cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(pnNorte, BorderLayout.NORTH);
@@ -112,8 +111,6 @@ class GUI extends JFrame {
         pnCentro.add(lbEndereco);
         pnCentro.add(tfEndereco);
 
-      //  scrollMensagem.add(textAreaMsg);
-
         pnSul.add(pnSulMsg, "pnMsg");
         pnSul.add(pnSulListagem, "pnLst");
 
@@ -129,6 +126,7 @@ class GUI extends JFrame {
 
         travarTextFields(true);
         textAreaMsg.setEditable(false);
+        
 
 // ------------------------BOTAO BUSCAR ----------------------------------------        
         btBuscar.addActionListener(new ActionListener() {
@@ -148,10 +146,11 @@ class GUI extends JFrame {
                     tfId.setText(contato.getId());
                     tfNome.setText(contato.getNome());
                     tfEndereco.setText(contato.getEndereco());
-                    setLog("Achou na lista, pode alterar ou excluir...");
-                    tfId.selectAll();
-                    tfId.requestFocus();
+                    setLog("Achou na lista o registro "+contato.getId()+"-"+contato.getNome()+" pode alterar ou excluir...");
+
                 }
+                tfId.selectAll();
+                tfId.requestFocus();
             }
 
         });
@@ -172,7 +171,7 @@ class GUI extends JFrame {
 
                 if (inserindo) { //a variavel inserindo é preenchida nos  
                     controle.inserir(contato);
-                     setLog("Inseriu");
+                    setLog("Inseriu");
                 } else {//alterar                  
                     controle.alterar(contatoOriginal, contato);
                     setLog("Alterou");
@@ -200,6 +199,7 @@ class GUI extends JFrame {
                 btExcluir.setVisible(false);
                 inserindo = false;
                 travarTextFields(false);
+                setLog("Alterando um registro existente");
             }
         });
 //||||||||||||||||||||||||||| BOTÃO INSERIR |||||||||||||||||||||||||||||||||||
@@ -214,6 +214,7 @@ class GUI extends JFrame {
                 inserindo = true;
 
                 travarTextFields(false);
+                setLog("Inserindo um novo registro");
             }
         });
 
@@ -244,7 +245,6 @@ class GUI extends JFrame {
             @Override
             public void actionPerformed(ActionEvent e) {
                 JOptionPane.showMessageDialog(cp, "Não foi implementado ainda.... ");
-
             }
         });
 
