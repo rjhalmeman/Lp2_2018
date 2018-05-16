@@ -13,12 +13,14 @@ import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.text.DefaultCaret;
 
 /**
  *
@@ -58,7 +60,7 @@ class GUI extends JFrame {
 //                scrollList.add(tabela);
     JScrollPane scrollList = new JScrollPane();
 
-    private ScrollPane scrollMensagem = new ScrollPane();
+    private JScrollPane scrollMensagem = new JScrollPane();
 
     JTextArea textAreaMsg = new JTextArea();
 
@@ -67,11 +69,13 @@ class GUI extends JFrame {
     private Controle controle = new Controle(); //essa é a classe de processamento (controle da lista de contatos)
     private Contato contato = new Contato(); //ver classe contato
 
+    DefaultCaret caret = (DefaultCaret) textAreaMsg.getCaret();
+
     private void setLog(String msg) {
 
+        textAreaMsg.append(msg + "\n");
         textAreaMsg.requestFocus();
         textAreaMsg.setCaretPosition(textAreaMsg.getDocument().getLength());
-        textAreaMsg.append(msg + "\n");
     }
 
     private void travarTextFields(boolean campo) {
@@ -81,7 +85,12 @@ class GUI extends JFrame {
     }
 
     public GUI() {
+
+        caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
+        scrollMensagem.setViewportView(textAreaMsg);
+
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+        
         cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(pnNorte, BorderLayout.NORTH);
@@ -103,7 +112,7 @@ class GUI extends JFrame {
         pnCentro.add(lbEndereco);
         pnCentro.add(tfEndereco);
 
-        scrollMensagem.add(textAreaMsg);
+      //  scrollMensagem.add(textAreaMsg);
 
         pnSul.add(pnSulMsg, "pnMsg");
         pnSul.add(pnSulListagem, "pnLst");
@@ -140,6 +149,8 @@ class GUI extends JFrame {
                     tfNome.setText(contato.getNome());
                     tfEndereco.setText(contato.getEndereco());
                     setLog("Achou na lista, pode alterar ou excluir...");
+                    tfId.selectAll();
+                    tfId.requestFocus();
                 }
             }
 
@@ -161,8 +172,10 @@ class GUI extends JFrame {
 
                 if (inserindo) { //a variavel inserindo é preenchida nos  
                     controle.inserir(contato);
+                     setLog("Inseriu");
                 } else {//alterar                  
                     controle.alterar(contatoOriginal, contato);
+                    setLog("Alterou");
                 }
 
                 //voltar para tela inicial
@@ -226,8 +239,16 @@ class GUI extends JFrame {
 
             }
         });
+//***************************** EXCLUIR *************************************
+        btExcluir.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(cp, "Não foi implementado ainda.... ");
 
-// parâmetros para janela inicial
+            }
+        });
+
+        // parâmetros para janela inicial
         setSize(700, 200);
         setTitle("Crud contatos");
         setLocationRelativeTo(null);
