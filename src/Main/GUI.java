@@ -24,6 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultCaret;
+import myTools.UsarGridBagLayout;
 
 /**
  *
@@ -33,10 +34,10 @@ class GUI extends JFrame {
 
     private Container cp;
     private JPanel pnNorte = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JPanel pnCentro = new JPanel(new GridBagLayout());
+    private JPanel pnCentro = new JPanel();
     private CardLayout cardLayout = new CardLayout();
     private JPanel pnSul = new JPanel(cardLayout);
-    private JPanel pnSulMsg = new JPanel(new GridLayout(1, 1));
+    private JPanel pnSulMsg = new JPanel();
     private JPanel pnSulListagem = new JPanel(new GridLayout(1, 1));
 
     private JLabel lbId = new JLabel("Id");
@@ -75,7 +76,6 @@ class GUI extends JFrame {
     DefaultCaret caret = (DefaultCaret) textAreaMsg.getCaret();
 
     private void setLog(String msg) {
-
         textAreaMsg.append(msg + "\n");
         textAreaMsg.requestFocus();
         textAreaMsg.setCaretPosition(textAreaMsg.getDocument().getLength());
@@ -87,28 +87,7 @@ class GUI extends JFrame {
         tfEndereco.setEditable(!campo);
     }
 
-    /**
-     * Adiciona um label e um componente horizontalmente
-     *
-     * @param label String que irá aparecer no label
-     * @param componente Componente de edição
-     */
-    public void addInGriBagPanel(JPanel qualPainel, JLabel label, JComponent componente) {
-        //   painel.setLayout(new GridBagLayout());
-        GridBagConstraints cons = new GridBagConstraints();
-        cons.fill = GridBagConstraints.NONE;  //não "esticar"
-        cons.anchor = GridBagConstraints.NORTHWEST; //canto superior esquerdo 
-        cons.insets = new Insets(4, 4, 4, 4);  //distancia entre os componentes
-
-        cons.weightx = 0;
-        cons.gridwidth = 1;
-        qualPainel.add(label, cons);
-
-        cons.fill = GridBagConstraints.BOTH;
-        cons.weightx = 1;
-        cons.gridwidth = GridBagConstraints.REMAINDER;
-        qualPainel.add(componente, cons);
-    }
+    UsarGridBagLayout usarGridBagLayout = new UsarGridBagLayout(pnCentro);
 
     public GUI() {
         //faz com que a última linha do jTextArea seja exibida
@@ -133,13 +112,13 @@ class GUI extends JFrame {
         pnNorte.add(btCancelar);
         pnNorte.add(btListar);
 
-        addInGriBagPanel(pnCentro, lbNome, tfNome);
-        addInGriBagPanel(pnCentro, lbEndereco, tfEndereco);
+        usarGridBagLayout.add(lbNome, tfNome,lbEndereco, tfEndereco);
 
+        UsarGridBagLayout usarGridBagLayoutSul = new UsarGridBagLayout(pnSulMsg);
+        usarGridBagLayoutSul.add(new JLabel("log"), scrollMensagem);
         pnSul.add(pnSulMsg, "pnMsg");
         pnSul.add(pnSulListagem, "pnLst");
-
-        pnSulMsg.add(scrollMensagem);
+       
 
         pnSul.setBackground(Color.red);
 
