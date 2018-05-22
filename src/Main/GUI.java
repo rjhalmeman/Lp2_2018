@@ -5,11 +5,15 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,7 +33,7 @@ class GUI extends JFrame {
 
     private Container cp;
     private JPanel pnNorte = new JPanel(new FlowLayout(FlowLayout.LEFT));
-    private JPanel pnCentro = new JPanel(new GridLayout(2, 2));
+    private JPanel pnCentro = new JPanel(new GridBagLayout());
     private CardLayout cardLayout = new CardLayout();
     private JPanel pnSul = new JPanel(cardLayout);
     private JPanel pnSulMsg = new JPanel(new GridLayout(1, 1));
@@ -83,6 +87,29 @@ class GUI extends JFrame {
         tfEndereco.setEditable(!campo);
     }
 
+    /**
+     * Adiciona um label e um componente horizontalmente
+     *
+     * @param label String que irá aparecer no label
+     * @param componente Componente de edição
+     */
+    public void addInGriBagPanel(JPanel qualPainel, JLabel label, JComponent componente) {
+        //   painel.setLayout(new GridBagLayout());
+        GridBagConstraints cons = new GridBagConstraints();
+        cons.fill = GridBagConstraints.NONE;  //não "esticar"
+        cons.anchor = GridBagConstraints.NORTHWEST; //canto superior esquerdo 
+        cons.insets = new Insets(4, 4, 4, 4);  //distancia entre os componentes
+
+        cons.weightx = 0;
+        cons.gridwidth = 1;
+        qualPainel.add(label, cons);
+
+        cons.fill = GridBagConstraints.BOTH;
+        cons.weightx = 1;
+        cons.gridwidth = GridBagConstraints.REMAINDER;
+        qualPainel.add(componente, cons);
+    }
+
     public GUI() {
         //faz com que a última linha do jTextArea seja exibida
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -106,10 +133,8 @@ class GUI extends JFrame {
         pnNorte.add(btCancelar);
         pnNorte.add(btListar);
 
-        pnCentro.add(lbNome);
-        pnCentro.add(tfNome);
-        pnCentro.add(lbEndereco);
-        pnCentro.add(tfEndereco);
+        addInGriBagPanel(pnCentro, lbNome, tfNome);
+        addInGriBagPanel(pnCentro, lbEndereco, tfEndereco);
 
         pnSul.add(pnSulMsg, "pnMsg");
         pnSul.add(pnSulListagem, "pnLst");
@@ -126,7 +151,6 @@ class GUI extends JFrame {
 
         travarTextFields(true);
         textAreaMsg.setEditable(false);
-        
 
 // ------------------------BOTAO BUSCAR ----------------------------------------        
         btBuscar.addActionListener(new ActionListener() {
@@ -146,7 +170,7 @@ class GUI extends JFrame {
                     tfId.setText(contato.getId());
                     tfNome.setText(contato.getNome());
                     tfEndereco.setText(contato.getEndereco());
-                    setLog("Achou na lista o registro "+contato.getId()+"-"+contato.getNome()+" pode alterar ou excluir...");
+                    setLog("Achou na lista o registro " + contato.getId() + "-" + contato.getNome() + " pode alterar ou excluir...");
 
                 }
                 tfId.selectAll();
