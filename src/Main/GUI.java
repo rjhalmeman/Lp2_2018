@@ -5,15 +5,11 @@ import java.awt.CardLayout;
 import java.awt.Color;
 import java.awt.Container;
 import java.awt.FlowLayout;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 import javax.swing.JButton;
-import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -90,7 +86,8 @@ class GUI extends JFrame {
     UsarGridBagLayout usarGridBagLayout = new UsarGridBagLayout(pnCentro);
 
     public GUI() {
-        //faz com que a última linha do jTextArea seja exibida
+        //faz com que a última linha do 
+        //jTextArea seja exibida
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         scrollMensagem.setViewportView(textAreaMsg);
 
@@ -112,13 +109,12 @@ class GUI extends JFrame {
         pnNorte.add(btCancelar);
         pnNorte.add(btListar);
 
-        usarGridBagLayout.add(lbNome, tfNome,lbEndereco, tfEndereco);
+        usarGridBagLayout.add(lbNome, tfNome, lbEndereco, tfEndereco);
 
         UsarGridBagLayout usarGridBagLayoutSul = new UsarGridBagLayout(pnSulMsg);
         usarGridBagLayoutSul.add(new JLabel("log"), scrollMensagem);
         pnSul.add(pnSulMsg, "pnMsg");
         pnSul.add(pnSulListagem, "pnLst");
-       
 
         pnSul.setBackground(Color.red);
 
@@ -132,9 +128,10 @@ class GUI extends JFrame {
         textAreaMsg.setEditable(false);
 
 // ------------------------BOTAO BUSCAR ----------------------------------------        
-        btBuscar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
+        btBuscar.addActionListener((ActionEvent e) -> {
+            if (tfId.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(cp, "Querido usuário sabido, vazio não pode ");
+            } else {
                 travarTextFields(true);
                 cardLayout.show(pnSul, "pnMsg");
                 contato = controle.buscar(tfId.getText());
@@ -152,10 +149,9 @@ class GUI extends JFrame {
                     setLog("Achou na lista o registro " + contato.getId() + "-" + contato.getNome() + " pode alterar ou excluir...");
 
                 }
-                tfId.selectAll();
-                tfId.requestFocus();
             }
-
+            tfId.selectAll();
+            tfId.requestFocus();
         });
 
 //*********************** BOTÃO SALVAR ****************************************        
@@ -247,7 +243,12 @@ class GUI extends JFrame {
         btExcluir.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(cp, "Não foi implementado ainda.... ");
+                int dialogResult = JOptionPane.showConfirmDialog(cp, "Vai excluir [ "
+                        + tfId.getText() + "-" + tfNome.getText() + "]?", "Exclui da lista", NORMAL);
+                if (dialogResult == JOptionPane.YES_OPTION) {
+                    controle.excluir(contato);
+                }
+
             }
         });
 

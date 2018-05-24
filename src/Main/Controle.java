@@ -12,7 +12,8 @@ public class Controle {
     List<Contato> lista = new ArrayList<>();
 
     public Controle() {
-        //esse construtor insere dados na lista para facilitar os testes, ao final 
+        //esse construtor insere dados na lista
+        //para facilitar os testes, ao final 
         //do desenvolvimento deverá ser apagado
         lista.add(new Contato("1", "111", "11111"));
         lista.add(new Contato("2", "222", "22222"));
@@ -46,6 +47,10 @@ public class Controle {
             );
         }
         return ls;
+    }
+    
+    public void excluir(Contato contato){
+        lista.remove(contato);
     }
 
 }
