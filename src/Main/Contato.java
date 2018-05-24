@@ -6,14 +6,14 @@ package Main;
  * @author radames
  */
 public class Contato {
-    private String id;
+    private int id;
     private String nome;
     private String endereco;
 
     public Contato() {
     }
 
-    public Contato(String id, String nome, String endereco) {
+    public Contato(int id, String nome, String endereco) {
         this.id = id;
         this.nome = nome;
         this.endereco = endereco;
@@ -28,11 +28,11 @@ public class Contato {
 
     
     
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

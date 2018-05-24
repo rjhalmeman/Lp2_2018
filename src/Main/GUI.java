@@ -83,7 +83,7 @@ class GUI extends JFrame {
         tfEndereco.setEditable(!campo);
     }
 
-    UsarGridBagLayout usarGridBagLayout = new UsarGridBagLayout(pnCentro);
+    UsarGridBagLayout usarGridBagLayoutCentro = new UsarGridBagLayout(pnCentro);
 
     public GUI() {
         //faz com que a última linha do 
@@ -109,7 +109,7 @@ class GUI extends JFrame {
         pnNorte.add(btCancelar);
         pnNorte.add(btListar);
 
-        usarGridBagLayout.add(lbNome, tfNome, lbEndereco, tfEndereco);
+        usarGridBagLayoutCentro.add(lbNome, tfNome, lbEndereco, tfEndereco);
 
         UsarGridBagLayout usarGridBagLayoutSul = new UsarGridBagLayout(pnSulMsg);
         usarGridBagLayoutSul.add(new JLabel("log"), scrollMensagem);
@@ -129,26 +129,34 @@ class GUI extends JFrame {
 
 // ------------------------BOTAO BUSCAR ----------------------------------------        
         btBuscar.addActionListener((ActionEvent e) -> {
-            if (tfId.getText().trim().equals("")) {
-                JOptionPane.showMessageDialog(cp, "Querido usuário sabido, vazio não pode ");
-            } else {
-                travarTextFields(true);
-                cardLayout.show(pnSul, "pnMsg");
-                contato = controle.buscar(tfId.getText());
-                if (contato == null) { //nao achou
-                    btInserir.setVisible(true);
-                    btAlterar.setVisible(false);
-                    btExcluir.setVisible(false);
-                    setLog("Não achou na lista, pode inserir se quiser...");
-                } else { //achou
-                    btAlterar.setVisible(true);
-                    btExcluir.setVisible(true);
-                    tfId.setText(contato.getId());
-                    tfNome.setText(contato.getNome());
-                    tfEndereco.setText(contato.getEndereco());
-                    setLog("Achou na lista o registro " + contato.getId() + "-" + contato.getNome() + " pode alterar ou excluir...");
 
-                }
+            if (tfId.getText().trim().equals("")) {
+                JOptionPane.showMessageDialog(cp, "Querido usuário, vazio não pode ");
+            } else {
+                try {
+                    tfId.setBackground(Color.green);
+                    travarTextFields(true);
+                    cardLayout.show(pnSul, "pnMsg");
+                    contato = controle.buscar(Integer.valueOf(tfId.getText()));
+                    if (contato == null) { //nao achou
+                        btInserir.setVisible(true);
+                        btAlterar.setVisible(false);
+                        btExcluir.setVisible(false);
+                        setLog("Não achou na lista, pode inserir se quiser...");
+                    } else { //achou
+                        btAlterar.setVisible(true);
+                        btExcluir.setVisible(true);
+                        tfId.setText(String.valueOf(contato.getId()));
+                        tfNome.setText(contato.getNome());
+                        tfEndereco.setText(contato.getEndereco());
+                        setLog("Achou na lista o registro " + contato.getId() + "-" + contato.getNome() + " pode alterar ou excluir...");
+
+                    }
+                } catch (Exception x) {
+                    tfId.selectAll();
+                    tfId.requestFocus();
+                    tfId.setBackground(Color.red);
+                }//else
             }
             tfId.selectAll();
             tfId.requestFocus();
@@ -164,7 +172,7 @@ class GUI extends JFrame {
                     contato = new Contato(); //criar um novo contato  
                 }
                 //transfere os valores da GUI para classe contato
-                contato.setId(tfId.getText());
+                contato.setId(Integer.valueOf(tfId.getText()));
                 contato.setNome(tfNome.getText());
                 contato.setEndereco(tfEndereco.getText());
 
