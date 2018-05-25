@@ -69,11 +69,11 @@ class GUI extends JFrame {
     private Controle controle = new Controle(); //essa é a classe de processamento (controle da lista de contatos)
     private Contato contato = new Contato(); //ver classe contato
 
-    DefaultCaret caret = (DefaultCaret) textAreaMsg.getCaret();
+    DefaultCaret caret = (DefaultCaret) textAreaMsg.getCaret(); //para que haja rolagem automática do textArea
+    UsarGridBagLayout usarGridBagLayoutCentro = new UsarGridBagLayout(pnCentro);
 
     private void setLog(String msg) {
         textAreaMsg.append(msg + "\n");
-        textAreaMsg.requestFocus();
         textAreaMsg.setCaretPosition(textAreaMsg.getDocument().getLength());
     }
 
@@ -81,9 +81,11 @@ class GUI extends JFrame {
         tfId.setEditable(campo); //permite que o usuario digite nesse textField
         tfNome.setEditable(!campo);
         tfEndereco.setEditable(!campo);
+        if (!campo) {
+            tfNome.requestFocus();
+            tfNome.selectAll();
+        }
     }
-
-    UsarGridBagLayout usarGridBagLayoutCentro = new UsarGridBagLayout(pnCentro);
 
     public GUI() {
         //faz com que a última linha do 
@@ -150,7 +152,6 @@ class GUI extends JFrame {
                         tfNome.setText(contato.getNome());
                         tfEndereco.setText(contato.getEndereco());
                         setLog("Achou na lista o registro " + contato.getId() + "-" + contato.getNome() + " pode alterar ou excluir...");
-
                     }
                 } catch (Exception x) {
                     tfId.selectAll();
@@ -190,23 +191,36 @@ class GUI extends JFrame {
                 btSalvar.setVisible(false);
                 btCancelar.setVisible(false);
                 btBuscar.setVisible(true);
+                btListar.setVisible(true);
                 tfNome.setText("");
                 tfEndereco.setText("");
 
             }
         });
+
+        //**************** Cancelar alteração ou inclusão ********************
+        btCancelar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                JOptionPane.showMessageDialog(cp, "Não programado ainda... pode programar ");
+            }
+        });
+
 //############################# BOTAO ALTERAR #################################
         btAlterar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                tfNome.requestFocus();
                 btSalvar.setVisible(true);
                 btCancelar.setVisible(true);
                 btBuscar.setVisible(false);
                 btAlterar.setVisible(false);
                 btExcluir.setVisible(false);
+                btListar.setVisible(false);
                 inserindo = false;
                 travarTextFields(false);
                 setLog("Alterando um registro existente");
+
             }
         });
 //||||||||||||||||||||||||||| BOTÃO INSERIR |||||||||||||||||||||||||||||||||||
@@ -218,9 +232,11 @@ class GUI extends JFrame {
                 btSalvar.setVisible(true);
                 btCancelar.setVisible(true);
                 btBuscar.setVisible(false);
+                btListar.setVisible(false);
                 inserindo = true;
-
                 travarTextFields(false);
+                tfNome.setText("");
+                tfEndereco.setText("");
                 setLog("Inserindo um novo registro");
             }
         });
@@ -256,7 +272,6 @@ class GUI extends JFrame {
                 if (dialogResult == JOptionPane.YES_OPTION) {
                     controle.excluir(contato);
                 }
-
             }
         });
 
