@@ -60,9 +60,9 @@ class GUI extends JFrame {
 
     JScrollPane scrollList = new JScrollPane();
 
-    private JScrollPane scrollMensagem = new JScrollPane();
+    private JScrollPane scrollMensagem = new JScrollPane(); //barra de rolagem
 
-    JTextArea textAreaMsg = new JTextArea(5, 150);
+    JTextArea textAreaMsg = new JTextArea(5, 150); //campo para texto com várias linhas
 
     private boolean inserindo; //esta variável controla se é uma operação de INSERT ou UPDATE no botão salvar
 
@@ -92,6 +92,7 @@ class GUI extends JFrame {
         //jTextArea seja exibida
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
         scrollMensagem.setViewportView(textAreaMsg);
+        scrollMensagem.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);//esconde a barra horizontal
 
         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
@@ -144,6 +145,7 @@ class GUI extends JFrame {
                         btInserir.setVisible(true);
                         btAlterar.setVisible(false);
                         btExcluir.setVisible(false);
+                        limparValoresDosAtributos();
                         setLog("Não achou na lista, pode inserir se quiser...");
                     } else { //achou
                         btAlterar.setVisible(true);
@@ -164,64 +166,56 @@ class GUI extends JFrame {
         });
 
 //*********************** BOTÃO SALVAR ****************************************        
-        btSalvar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                Contato contatoOriginal = contato; //para pesquisar na lista
-                //precisamos do contato original (para depois modificar)
-                if (inserindo) {
-                    contato = new Contato(); //criar um novo contato  
-                }
-                //transfere os valores da GUI para classe contato
-                contato.setId(Integer.valueOf(tfId.getText()));
-                contato.setNome(tfNome.getText());
-                contato.setEndereco(tfEndereco.getText());
-
-                if (inserindo) { //a variavel inserindo é preenchida nos  
-                    controle.inserir(contato);
-                    setLog("Inseriu");
-                } else {//alterar                  
-                    controle.alterar(contatoOriginal, contato);
-                    setLog("Alterou");
-                }
-
-                //voltar para tela inicial
-                tfId.requestFocus();
-                tfId.selectAll();
-                btSalvar.setVisible(false);
-                btCancelar.setVisible(false);
-                btBuscar.setVisible(true);
-                btListar.setVisible(true);
-                tfNome.setText("");
-                tfEndereco.setText("");
-
+        btSalvar.addActionListener((ActionEvent e) -> {
+            Contato contatoOriginal = contato; //para pesquisar na lista
+            //precisamos do contato original (para depois modificar)
+            if (inserindo) {
+                contato = new Contato(); //criar um novo contato
             }
+            //transfere os valores da GUI para classe contato
+            contato.setId(Integer.valueOf(tfId.getText()));
+            contato.setNome(tfNome.getText());
+            contato.setEndereco(tfEndereco.getText());
+            
+            if (inserindo) { //a variavel inserindo é preenchida nos
+                controle.inserir(contato);
+                setLog("Inseriu");
+            } else {//alterar
+                controle.alterar(contatoOriginal, contato);
+                setLog("Alterou");
+            }
+            
+            //voltar para tela inicial
+            tfId.requestFocus();
+            tfId.selectAll();
+            btSalvar.setVisible(false);
+            btCancelar.setVisible(false);
+            btBuscar.setVisible(true);
+            btListar.setVisible(true);
+            limparValoresDosAtributos();
+            travarTextFields(true);
         });
 
         //**************** Cancelar alteração ou inclusão ********************
         btCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(cp, "Não programado ainda... pode programar ");
+                JOptionPane.showMessageDialog(cp, "Não programado ainda... podem programar ");
             }
         });
 
 //############################# BOTAO ALTERAR #################################
-        btAlterar.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                tfNome.requestFocus();
-                btSalvar.setVisible(true);
-                btCancelar.setVisible(true);
-                btBuscar.setVisible(false);
-                btAlterar.setVisible(false);
-                btExcluir.setVisible(false);
-                btListar.setVisible(false);
-                inserindo = false;
-                travarTextFields(false);
-                setLog("Alterando um registro existente");
-
-            }
+        btAlterar.addActionListener((ActionEvent e) -> {
+            tfNome.requestFocus();
+            btSalvar.setVisible(true);
+            btCancelar.setVisible(true);
+            btBuscar.setVisible(false);
+            btAlterar.setVisible(false);
+            btExcluir.setVisible(false);
+            btListar.setVisible(false);
+            inserindo = false;
+            travarTextFields(false);
+            setLog("Alterando um registro existente");
         });
 //||||||||||||||||||||||||||| BOTÃO INSERIR |||||||||||||||||||||||||||||||||||
         btInserir.addActionListener(new ActionListener() {
@@ -235,8 +229,7 @@ class GUI extends JFrame {
                 btListar.setVisible(false);
                 inserindo = true;
                 travarTextFields(false);
-                tfNome.setText("");
-                tfEndereco.setText("");
+                limparValoresDosAtributos();
                 setLog("Inserindo um novo registro");
             }
         });
@@ -281,6 +274,11 @@ class GUI extends JFrame {
         setLocationRelativeTo(null);
         setVisible(true);
 
+    }
+
+    private void limparValoresDosAtributos() {
+        tfNome.setText("");
+        tfEndereco.setText("");
     }
 
 }
