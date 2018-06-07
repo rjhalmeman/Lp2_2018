@@ -159,6 +159,7 @@ class GUI extends JFrame {
                     tfId.selectAll();
                     tfId.requestFocus();
                     tfId.setBackground(Color.red);
+                    setLog("Erro no tipo de dados da chave. ("+x.getMessage()+")");
                 }//else
             }
             tfId.selectAll();
