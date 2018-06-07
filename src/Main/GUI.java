@@ -8,6 +8,10 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.awt.event.WindowListener;
+import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -20,6 +24,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.text.DefaultCaret;
+import myTools.Ferramentas;
 import myTools.UsarGridBagLayout;
 
 /**
@@ -51,6 +56,7 @@ class GUI extends JFrame {
     private JButton btListar = new JButton("Listar");
     private JButton btSalvar = new JButton("Salvar");
     private JButton btCancelar = new JButton("Cancelar");
+    private JButton btGravar = new JButton("Gravar");
 
     String[] colunas = new String[]{"Id", "Nome", "Endereço"};
     String[][] dados = new String[0][3];
@@ -71,6 +77,8 @@ class GUI extends JFrame {
 
     DefaultCaret caret = (DefaultCaret) textAreaMsg.getCaret(); //para que haja rolagem automática do textArea
     UsarGridBagLayout usarGridBagLayoutCentro = new UsarGridBagLayout(pnCentro);
+
+    Ferramentas fer = new Ferramentas();
 
     //métodos auxiliares
     private void setLog(String msg) {
@@ -95,6 +103,16 @@ class GUI extends JFrame {
 
     //construtor da classe GUI
     public GUI() {
+        //abrir o arquivo
+        List<String> listaAuxiliar = fer.abrirArquivo("Contatos.txt");
+        if (listaAuxiliar != null) {
+            for (int i = 0; i < listaAuxiliar.size(); i++) {
+                String aux[] = listaAuxiliar.get(i).split(";");
+                Contato c = new Contato(Integer.valueOf(aux[0]), aux[1], aux[2]);
+                controle.inserir(c);
+            }
+        }
+
         //faz com que a última linha do 
         //jTextArea seja exibida
         caret.setUpdatePolicy(DefaultCaret.ALWAYS_UPDATE);
@@ -118,6 +136,7 @@ class GUI extends JFrame {
         pnNorte.add(btSalvar);
         pnNorte.add(btCancelar);
         pnNorte.add(btListar);
+        
 
         usarGridBagLayoutCentro.add(lbNome, tfNome, lbEndereco, tfEndereco);
 
@@ -136,6 +155,25 @@ class GUI extends JFrame {
 
         travarTextFields(true);
         textAreaMsg.setEditable(false);
+        
+        addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                btGravar.doClick();
+                // Sai   
+                dispose();
+            }
+        });
+
+        btGravar.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //converter a lista<contato> em lista de string
+                List<String> listaStr = controle.listar();
+                fer.salvarArquivo("Contatos.txt", listaStr);
+
+            }
+        });
 
 // ------------------------BOTAO BUSCAR ----------------------------------------        
         btBuscar.addActionListener((ActionEvent e) -> {
