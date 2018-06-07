@@ -72,6 +72,7 @@ class GUI extends JFrame {
     DefaultCaret caret = (DefaultCaret) textAreaMsg.getCaret(); //para que haja rolagem automática do textArea
     UsarGridBagLayout usarGridBagLayoutCentro = new UsarGridBagLayout(pnCentro);
 
+    //métodos auxiliares
     private void setLog(String msg) {
         textAreaMsg.append(msg + "\n");
         textAreaMsg.setCaretPosition(textAreaMsg.getDocument().getLength());
@@ -87,6 +88,12 @@ class GUI extends JFrame {
         }
     }
 
+    private void limparValoresDosAtributos() {
+        tfNome.setText("");
+        tfEndereco.setText("");
+    }
+
+    //construtor da classe GUI
     public GUI() {
         //faz com que a última linha do 
         //jTextArea seja exibida
@@ -153,13 +160,14 @@ class GUI extends JFrame {
                         tfId.setText(String.valueOf(contato.getId()));
                         tfNome.setText(contato.getNome());
                         tfEndereco.setText(contato.getEndereco());
-                        setLog("Achou na lista o registro " + contato.getId() + "-" + contato.getNome() + " pode alterar ou excluir...");
+                        setLog("Achou [" + contato.getId() + "-" + contato.getNome() + "]");
+
                     }
                 } catch (Exception x) {
                     tfId.selectAll();
                     tfId.requestFocus();
                     tfId.setBackground(Color.red);
-                    setLog("Erro no tipo de dados da chave. ("+x.getMessage()+")");
+                    setLog("Erro no tipo de dados da chave. (" + x.getMessage() + ")");
                 }//else
             }
             tfId.selectAll();
@@ -177,15 +185,15 @@ class GUI extends JFrame {
             contato.setId(Integer.valueOf(tfId.getText()));
             contato.setNome(tfNome.getText());
             contato.setEndereco(tfEndereco.getText());
-            
+
             if (inserindo) { //a variavel inserindo é preenchida nos
                 controle.inserir(contato);
-                setLog("Inseriu");
+                setLog("Inseriu [" + contato.getId() + "-" + contato.getNome() + "]");
             } else {//alterar
                 controle.alterar(contatoOriginal, contato);
-                setLog("Alterou");
+                setLog("Alterou [" + contato.getId() + "-" + contato.getNome() + "]");
             }
-            
+
             //voltar para tela inicial
             tfId.requestFocus();
             tfId.selectAll();
@@ -197,11 +205,20 @@ class GUI extends JFrame {
             travarTextFields(true);
         });
 
-        //**************** Cancelar alteração ou inclusão ********************
+//**************** Cancelar alteração ou inclusão ********************
         btCancelar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                JOptionPane.showMessageDialog(cp, "Não programado ainda... podem programar ");
+                tfId.requestFocus();
+                tfId.selectAll();
+                btInserir.setVisible(false);
+                btSalvar.setVisible(false);
+                btCancelar.setVisible(false);
+                btBuscar.setVisible(true);
+                btListar.setVisible(true);
+                travarTextFields(true);
+                limparValoresDosAtributos();
+                setLog("Cancelou a alteração ou inclusão do registro");
             }
         });
 
@@ -254,7 +271,6 @@ class GUI extends JFrame {
                     // String[] linha = new String[]{"João", "15", "Masculino"};
                     model.addRow(linha);
                 }
-
             }
         });
 //***************************** EXCLUIR *************************************
@@ -265,21 +281,17 @@ class GUI extends JFrame {
                         + tfId.getText() + "-" + tfNome.getText() + "]?", "Exclui da lista", NORMAL);
                 if (dialogResult == JOptionPane.YES_OPTION) {
                     controle.excluir(contato);
+                    setLog("Excluiu [" + contato.getId() + "-" + contato.getNome() + "]");
+
                 }
             }
         });
 
+//$$$$$$$$$$$$$$ FIM DOS LISTENERS $$$$$$$$$$$$$
         // parâmetros para janela inicial
         setSize(700, 200);
         setTitle("Crud contatos");
         setLocationRelativeTo(null);
         setVisible(true);
-
     }
-
-    private void limparValoresDosAtributos() {
-        tfNome.setText("");
-        tfEndereco.setText("");
-    }
-
 }
