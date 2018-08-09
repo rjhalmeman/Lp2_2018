@@ -10,8 +10,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
-import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -41,7 +39,7 @@ class GUI extends JFrame {
     private JPanel pnSulMsg = new JPanel();
     private JPanel pnSulListagem = new JPanel(new GridLayout(1, 1));
 
-    private JLabel lbId = new JLabel("Id");
+    private JLabel lbId = new JLabel("<html><font color='red'> ID </font>");
     private JLabel lbNome = new JLabel("Nome");
     private JLabel lbEndereco = new JLabel("Endereço");
 
@@ -49,7 +47,8 @@ class GUI extends JFrame {
     private JTextField tfNome = new JTextField(30);
     private JTextField tfEndereco = new JTextField(30);
 
-    private JButton btBuscar = new JButton("Buscar");
+    private JButton btBuscar = new JButton("<html><center>"
+                 + "<font color=#000fdd>Buscar</font>");
     private JButton btInserir = new JButton("Inserir");
     private JButton btAlterar = new JButton("Alterar");
     private JButton btExcluir = new JButton("Excluir");
@@ -105,7 +104,7 @@ class GUI extends JFrame {
     public GUI() {
         //abrir o arquivo
         List<String> listaAuxiliar = fer.abrirArquivo("Contatos.txt");
-        if (listaAuxiliar != null) {
+        if (listaAuxiliar != null) {//se o arquivo existe, copia os dados
             for (int i = 0; i < listaAuxiliar.size(); i++) {
                 String aux[] = listaAuxiliar.get(i).split(";");
                 Contato c = new Contato(Integer.valueOf(aux[0]), aux[1], aux[2]);
@@ -136,6 +135,7 @@ class GUI extends JFrame {
         pnNorte.add(btSalvar);
         pnNorte.add(btCancelar);
         pnNorte.add(btListar);
+        
         
 
         usarGridBagLayoutCentro.add(lbNome, tfNome, lbEndereco, tfEndereco);
