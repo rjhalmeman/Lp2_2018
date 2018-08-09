@@ -6,7 +6,7 @@ import myTools.Ferramentas;
 
 /**
  *
- * @author radames
+ * https://github.com/rjhalmeman/Lp2_2018.git ramificação: GeradorDeCrud2018
  */
 public class Main {
 
@@ -22,6 +22,15 @@ public class Main {
         List<String> codigoGerado = new ArrayList<>();
 
         codigoGerado.add("package Main;");
+
+        //import java.util.Date;
+        for (String s : arquivoBase) {
+            String aux[] = s.split(";");
+            if (aux[0].equals("Date")) {
+                codigoGerado.add("import java.util.Date;");
+            }
+        }
+
         codigoGerado.add("public class " + nomeClasse + " {");
 
         //atributos
@@ -35,6 +44,7 @@ public class Main {
         }
 
         codigoGerado.add("");
+
         //métodos get
         for (String s : arquivoBase) {
             String aux[] = s.split(";");
@@ -44,6 +54,7 @@ public class Main {
                     + "    }\n");
         }
         codigoGerado.add("");
+
         //métodos set
         for (String s : arquivoBase) {
             String aux[] = s.split(";");
@@ -53,14 +64,15 @@ public class Main {
                     + "    }");
         }
 
+        //Método toString
         String ss = "";
         for (String s : arquivoBase) {
             String aux[] = s.split(";");
             ss += aux[1] + "+ \";\"+";
 
         }
-        ss=ss.substring(0,ss.length()-1);
-        
+        ss = ss.substring(0, ss.length() - 1);
+
         codigoGerado.add(" @Override\n"
                 + "    public String toString() {\n"
                 + "        return " + ss + " ;\n"
@@ -70,6 +82,16 @@ public class Main {
         codigoGerado.add("}");//fim da classe 
 
         ferramentas.salvarArquivo("src/Main/" + nomeClasse + ".java", codigoGerado);
+
+        //terminou a classe de entidade
+        codigoGerado.clear();
+        codigoGerado.add("package Main;\n"
+                + "\n"
+                + "import java.util.ArrayList;\n"
+                + "import java.util.List;");
+
+        //....
+        ferramentas.salvarArquivo("src/Main/" + nomeClasse + "Controle.java", codigoGerado);
 
     }
 
