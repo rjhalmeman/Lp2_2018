@@ -1,0 +1,6 @@
+int; idPessoa
+String; nomePessoa
+Date;dataDeNascimentoPessoa
+double;peso
+double;altura
+String;nomeMae
