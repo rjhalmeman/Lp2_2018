@@ -31,6 +31,7 @@ public class GUI extends JFrame {
     private JPanel painelNorteLinha2 = new JPanel();
     private JPanel painelNorteLinha1 = new JPanel();
     private JPanel painelNorteLinha3 = new JPanel();
+    private JPanel painelSul = new JPanel();
 
     private JButton botaoEscolherProjetoDestino = new JButton("Escolher projeto destino");
     private JButton botaoGerarClasseEntidade = new JButton("Gerar Entidade");
@@ -60,6 +61,8 @@ public class GUI extends JFrame {
         cp = getContentPane();
         cp.setLayout(new BorderLayout());
         cp.add(painelNorte, BorderLayout.NORTH);
+        cp.add(painelSul, BorderLayout.SOUTH);
+        
         painelNorte.add(painelNorteLinha1);
         painelNorte.add(painelNorteLinha2);
         painelNorte.add(painelNorteLinha3);
@@ -71,8 +74,8 @@ public class GUI extends JFrame {
         painelNorteLinha2.add(labelArqTexto);
         painelNorteLinha2.add(textFieldArquivoTexto);
 
-        painelNorteLinha3.add(botaoGerarClasseEntidade);
-        painelNorteLinha3.add(botaoGerarClasseControle);
+        painelSul.add(botaoGerarClasseEntidade);
+        painelSul.add(botaoGerarClasseControle);
 
         botaoEscolherProjetoDestino.addActionListener(new ActionListener() {
             @Override
