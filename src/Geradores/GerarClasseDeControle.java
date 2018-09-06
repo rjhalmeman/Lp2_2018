@@ -50,15 +50,45 @@ public class GerarClasseDeControle {
         codigoGerado.add("  List<" + nomeClasse + "> lista = new ArrayList<>();");
         codigoGerado.add("  public " + nomeClasse + "Controle() {\n"
                 + "   \n"
-                + "    }"
-                + "\n}");
+                + "    }");
+
+        //contrutor vazio
+        codigoGerado.add("");
+
+        //metodo buscar
+        String tipoChave = arquivoBase.get(0).split(";")[0];
+        String nomeChave = arquivoBase.get(0).split(";")[1];
+
+        codigoGerado.add("  public " + nomeClasse + " buscar(" + tipoChave + " chave) {\n"
+                + "        for (int i = 0; i < lista.size(); i++) {");
+        String aux = "";
+        switch (tipoChave) {
+            case "int":
+                aux = " if (chave==lista.get(i).get" + ferramentas.plMaius(nomeChave) + "()) {";
+                break;
+            case "String":
+                aux = " if (chave.equals(lista.get(i).get" + ferramentas.plMaius(nomeChave) + "())) {";
+                break;
+            default:
+                aux = "tipo desconhecido, programe";
+        }
+
+        codigoGerado.add(aux);
+        codigoGerado.add("return lista.get(i);//se encontrou, retorna a linha toda (um contato)\n"
+                + "            }\n"
+                + "        }\n"
+                + "        return null; //se não encontrou na lista, retorna um contato nulo\n"
+                + "    }\n"
+                + ""
+        );
+
+        codigoGerado.add("\n}");
 
         //....
         String cc = projetoDestino + "/src/Main/" + nomeClasse + "Controle.java";
         System.out.println("Vai criar a classe nesse caminho=> " + cc);
         ferramentas.salvarArquivo(cc, codigoGerado);
 
-        //terminou a classe de entidade
     }
 
 }

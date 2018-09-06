@@ -1,4 +1,4 @@
-int; idPessoa
+String; idPessoa
 String; nomePessoa
 Date;dataDeNascimentoPessoa
 double;peso

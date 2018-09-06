@@ -74,6 +74,8 @@ public class GUI extends JFrame {
         painelNorteLinha2.add(labelArqTexto);
         painelNorteLinha2.add(textFieldArquivoTexto);
 
+        textFieldArquivoTexto.setText("Pessoa");
+        
         painelSul.add(botaoGerarClasseEntidade);
         painelSul.add(botaoGerarClasseControle);
 
