@@ -1,0 +1,4 @@
+String;idCarro;Placa
+String;nomeCarro;Nome
+int;anoLancamento;Ano de Lançamento
+double;preco;Preço

@@ -1,8 +1,8 @@
 package Main;
 
 //@author Radames J Halmeman  - rjhalmeman@gmail.com
-import Geradores.GerarClasseDeControle;
 import Geradores.GerarClasseDeEntidade;
+import Geradores.GerarClasseGUI;
 import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Container;
@@ -36,6 +36,7 @@ public class GUI extends JFrame {
     private JButton botaoEscolherProjetoDestino = new JButton("Escolher projeto destino");
     private JButton botaoGerarClasseEntidade = new JButton("Gerar Entidade");
     private JButton botaoGerarClasseControle = new JButton("Gerar Controle");
+    private JButton botaoGerarClasseGUI = new JButton("Gerar GUI");
 
     private JLabel labelArqTexto = new JLabel("Nome do arquivo da entidade");
     private JTextField textFieldArquivoTexto = new JTextField(50);
@@ -78,6 +79,7 @@ public class GUI extends JFrame {
         
         painelSul.add(botaoGerarClasseEntidade);
         painelSul.add(botaoGerarClasseControle);
+        painelSul.add(botaoGerarClasseGUI);
 
         botaoEscolherProjetoDestino.addActionListener(new ActionListener() {
             @Override
@@ -126,15 +128,27 @@ public class GUI extends JFrame {
                 }
             }
         });
-
-        botaoGerarClasseControle.addActionListener(new ActionListener() {
+        
+         botaoGerarClasseEntidade.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (textFieldArquivoTexto.getText().trim().equals("")) {
                     JOptionPane.showMessageDialog(cp, "Deve ser informado um nome de entidade");
                 } else {
-                    Geradores.GerarClasseDeControle gcc
-                            = new GerarClasseDeControle(textFieldProjetoDestino.getText(), textFieldArquivoTexto.getText());
+                    GerarClasseDeEntidade gerarClasseDeEntidade
+                            = new GerarClasseDeEntidade(textFieldProjetoDestino.getText(), textFieldArquivoTexto.getText());
+                }
+            }
+        });
+
+        botaoGerarClasseGUI.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (textFieldArquivoTexto.getText().trim().equals("")) {
+                    JOptionPane.showMessageDialog(cp, "Deve ser informado um nome de entidade");
+                } else {
+                    Geradores.GerarClasseGUI gcc
+                            = new GerarClasseGUI(textFieldProjetoDestino.getText(), textFieldArquivoTexto.getText());
                 }
             }
         });

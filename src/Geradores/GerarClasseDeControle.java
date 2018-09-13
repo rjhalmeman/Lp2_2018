@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Geradores;
 
 import java.util.ArrayList;
@@ -81,6 +76,12 @@ public class GerarClasseDeControle {
                 + "    }\n"
                 + ""
         );
+
+        //metodo inserir
+        codigoGerado.add(" public void inserir(" + ferramentas.plMaius(nomeClasse)
+                + " " + ferramentas.plMinusc(nomeClasse) + ") {\n"
+                + "        lista.add(" + ferramentas.plMinusc(nomeClasse) + ");\n"
+                + "    }");
 
         codigoGerado.add("\n}");
 
