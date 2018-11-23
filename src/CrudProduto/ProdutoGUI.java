@@ -41,7 +41,6 @@ public class ProdutoGUI extends JDialog {
     ImageIcon iconeSave;
     ImageIcon iconeCancel;
     ImageIcon iconeListar;
-   
 
     JButton btnCreate;
     JButton btnRetrieve;
@@ -133,7 +132,7 @@ public class ProdutoGUI extends JDialog {
             iconeSave = new ImageIcon(getClass().getResource("/icones/save.png"));
             iconeCancel = new ImageIcon(getClass().getResource("/icones/cancel.png"));
             iconeListar = new ImageIcon(getClass().getResource("/icones/list.png"));
-           
+
             btnCreate = new JButton(iconeCreate);
             btnRetrieve = new JButton(iconeRetrieve);
             btnUpdate = new JButton(iconeUpdate);
@@ -270,17 +269,35 @@ public class ProdutoGUI extends JDialog {
                         //para ajustar o tamanho de uma imagem
                         try {
                             String aux = String.valueOf(produto.getId()).trim();
-                            origem = "/fotos/" + aux + ".png";
-                            ImageIcon icone = new ImageIcon(getClass().getResource(origem));
+                            
+                            // antes de mudar era assim
+                            //origem = "/fotos/" + aux + ".png";
+                            //ImageIcon icone = new ImageIcon(getClass().getResource(origem));
+
+                            //inicio da mudança no código
+                            origem = "src/fotos/" + aux + ".png";
+                            File img = new File(origem);//ler novamente a imagem
+                            ImageIcon icone;
+                            if (img.exists()) {
+                                icone = new javax.swing.ImageIcon(img.getAbsolutePath());
+
+                            } else {
+                                origem = "src/fotos/0.png";
+                                img = new File(origem);//ler novamente a imagem
+                                icone = new javax.swing.ImageIcon(img.getAbsolutePath());
+                            }
+                            //fim da modificação
+
+                            Image imagemAux;
                             imagemAux = icone.getImage();
                             icone.setImage(imagemAux.getScaledInstance(300, 300, Image.SCALE_FAST));
-
                             labelFoto.setIcon(icone);
 
                         } catch (Exception e) {
                             System.out.println("nao achou " + origem);
-                            origem = "/fotos/0.png";
-                            ImageIcon icone = new ImageIcon(getClass().getResource(origem));
+                            origem = "src/fotos/0.png";
+                            File img = new File(origem);//ler novamente a imagem
+                            ImageIcon icone = new javax.swing.ImageIcon(img.getAbsolutePath());
                             imagemAux = icone.getImage();
                             icone.setImage(imagemAux.getScaledInstance(300, 300, Image.SCALE_FAST));
                             labelFoto.setIcon(icone);
