@@ -267,41 +267,31 @@ public class ProdutoGUI extends JDialog {
                         labelAviso.setText("Encontrou - clic [Pesquisar], [Alterar] ou [Excluir]");
                         acao = "encontrou";
                         //para ajustar o tamanho de uma imagem
-                        try {
-                            String aux = String.valueOf(produto.getId()).trim();
-                            
-                            // antes de mudar era assim
-                            //origem = "/fotos/" + aux + ".png";
-                            //ImageIcon icone = new ImageIcon(getClass().getResource(origem));
 
-                            //inicio da mudança no código
-                            origem = "src/fotos/" + aux + ".png";
-                            File img = new File(origem);//ler novamente a imagem
-                            ImageIcon icone;
-                            if (img.exists()) {
-                                icone = new javax.swing.ImageIcon(img.getAbsolutePath());
+                        String aux = String.valueOf(produto.getId()).trim();
 
-                            } else {
-                                origem = "src/fotos/0.png";
-                                img = new File(origem);//ler novamente a imagem
-                                icone = new javax.swing.ImageIcon(img.getAbsolutePath());
-                            }
-                            //fim da modificação
+                        // antes de mudar era assim
+                        //origem = "/fotos/" + aux + ".png";
+                        //ImageIcon icone = new ImageIcon(getClass().getResource(origem));
+                        //inicio da mudança no código
+                        origem = "src/fotos/" + aux + ".png";
+                        File img = new File(origem);//ler novamente a imagem
+                        ImageIcon icone;
+                        if (img.exists()) {
+                            icone = new javax.swing.ImageIcon(img.getAbsolutePath());
 
-                            Image imagemAux;
-                            imagemAux = icone.getImage();
-                            icone.setImage(imagemAux.getScaledInstance(300, 300, Image.SCALE_FAST));
-                            labelFoto.setIcon(icone);
-
-                        } catch (Exception e) {
-                            System.out.println("nao achou " + origem);
+                        } else {
                             origem = "src/fotos/0.png";
-                            File img = new File(origem);//ler novamente a imagem
-                            ImageIcon icone = new javax.swing.ImageIcon(img.getAbsolutePath());
-                            imagemAux = icone.getImage();
-                            icone.setImage(imagemAux.getScaledInstance(300, 300, Image.SCALE_FAST));
-                            labelFoto.setIcon(icone);
+                            img = new File(origem);//ler novamente a imagem
+                            icone = new javax.swing.ImageIcon(img.getAbsolutePath());
                         }
+                        //fim da modificação
+
+                        Image imagemAux;
+                        imagemAux = icone.getImage();
+                        icone.setImage(imagemAux.getScaledInstance(300, 300, Image.SCALE_FAST));
+                        labelFoto.setIcon(icone);
+
                     } else {
                         atvBotoes(true, true, false, false);
                         zerarAtributos(0);
